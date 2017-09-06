@@ -1,0 +1,13 @@
+{
+  "name": "mothership-governance",
+  "repository": "git@github.com:mothershipcx/governance.git",
+  "author": "Anton Egorov <anton.egoroff@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "truffle test --network development"
+  },
+  "devDependencies": {
+    "truffle": "^3.4.9",
+    "ethereumjs-abi": "^0.6.4"
+  }
+}
