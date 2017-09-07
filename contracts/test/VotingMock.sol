@@ -7,8 +7,8 @@ import '../Voting.sol';
 contract VotingMock is Voting {
   uint blockNumberMock = 1;
 
-  function VotingMock(uint8 _candidatesCount, address _msp, uint _endBlock)
-    Voting(_candidatesCount, _msp, _endBlock) {}
+  function VotingMock(uint8 _candidatesCount, address _msp, uint _cap, uint _endBlock)
+    Voting(_candidatesCount, _msp, _cap, _endBlock) {}
 
   function getBlockNumber() internal constant returns (uint) {
     return blockNumberMock;

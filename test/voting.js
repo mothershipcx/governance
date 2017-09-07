@@ -13,11 +13,12 @@ contract('Voting', function(accounts) {
   const blockNumber = 50000000
   const endBlock = 50030000
   const candidatesCount = 5
+  const mspCap = 100000
 
   beforeEach(async () => {
     msp = await MSP.new({ from: owner })
     msp.setMockedBlockNumber(blockNumber)
-    voting = await Voting.new(candidatesCount, msp.address, endBlock, {
+    voting = await Voting.new(candidatesCount, msp.address, mspCap, endBlock, {
       from: owner
     })
     voting.setMockedBlockNumber(blockNumber)
@@ -165,6 +166,18 @@ contract('Voting', function(accounts) {
     const [candidates, amounts] = await voting.getSummary()
     assert.deepEqual(candidates.map(bn => bn.toNumber()), [1, 2, 3, 4, 5])
     assert.deepEqual(amounts.map(bn => bn.toNumber()), [300, 0, 150, 0, 0])
+  })
+
+  it('There is an MSP cap for a voting', async () => {
+    await msp.generateTokens(accounts[1], 100)
+    await voting.vote(1, { from: accounts[1] })
+
+    await msp.generateTokens(accounts[2], 150000)
+    await voting.vote(2, { from: accounts[2] })
+
+    const [candidates, amounts] = await voting.getSummary()
+    assert.deepEqual(candidates.map(bn => bn.toNumber()), [1, 2, 3, 4, 5])
+    assert.deepEqual(amounts.map(bn => bn.toNumber()), [100, 100000, 0, 0, 0])
   })
 
   it('Claim tokens from voting contract', async () => {
