@@ -1,2 +1,3 @@
-# governance
-Mothership Governance smart contracts
+# Governance Platform smart contracts
+
+
