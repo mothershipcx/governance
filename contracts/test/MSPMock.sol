@@ -24,7 +24,7 @@ contract MSPMock is Token {
   /// @param _to The address of the recipient
   /// @param _amount The amount of tokens to be transferred
   /// @return Whether the transfer was successful or not
-  function transfer(address _to, uint256 _amount) returns (bool success) {
+  function transfer(address _to, uint256 _amount) public returns (bool success) {
     var _from = msg.sender;
 
     // NOTE no checks, it's a mock
@@ -39,7 +39,7 @@ contract MSPMock is Token {
   /// @param _owner The address that will be assigned the new tokens
   /// @param _amount The quantity of tokens generated
   /// @return True if the tokens are generated correctly
-  function generateTokens(address _owner, uint _amount) returns (bool) {
+  function generateTokens(address _owner, uint _amount) public returns (bool) {
     // NOTE no checks, it's a mock
     var previousBalanceTo = balanceOf(_owner);
     updateValueAtNow(balances[_owner], previousBalanceTo + _amount);
@@ -48,7 +48,7 @@ contract MSPMock is Token {
 
   /// @param _owner The address that's balance is being requested
   /// @return The balance of `_owner` at the current block
-  function balanceOf(address _owner) constant returns (uint256 balance) {
+  function balanceOf(address _owner) public constant returns (uint256 balance) {
     return balanceOfAt(_owner, getBlockNumber());
   }
 
@@ -56,7 +56,7 @@ contract MSPMock is Token {
   /// @param _owner The address from which the balance will be retrieved
   /// @param _blockNumber The block number when the balance is queried
   /// @return The balance at `_blockNumber`
-  function balanceOfAt(address _owner, uint _blockNumber) constant returns (uint) {
+  function balanceOfAt(address _owner, uint _blockNumber) public constant returns (uint) {
     Checkpoint[] storage checkpoints = balances[_owner];
 
     if (checkpoints.length == 0) return 0;
