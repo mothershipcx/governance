@@ -46,7 +46,7 @@ contract Voting is Ownable {
   /// @param _msp Address of the MSP token contract
   /// @param _cap The cap for a voter's MSP balance to count in voting result
   /// @param _endBlock The last block that the voting period is active
-  function Voting(uint8 _candidatesCount, address _msp, uint _cap, uint _endBlock) {
+  function Voting(uint8 _candidatesCount, address _msp, uint _cap, uint _endBlock) public {
     candidates = _candidatesCount;
     msp = Token(_msp);
     cap = _cap;
@@ -55,7 +55,7 @@ contract Voting is Ownable {
 
   /// @dev A method to signal a vote for a given `_candidate`
   /// @param _candidate Voting candidate ID
-  function vote(uint8 _candidate) {
+  function vote(uint8 _candidate) public {
     require(_candidate > 0 && _candidate <= candidates);
     assert(endBlock == 0 || getBlockNumber() <= endBlock);
     if (votes[msg.sender] == 0) {
@@ -67,6 +67,7 @@ contract Voting is Ownable {
 
   /// @return Number of voters
   function votersCount()
+    public
     constant
     returns(uint) {
     return voters.length;
@@ -78,6 +79,7 @@ contract Voting is Ownable {
   /// @param _limit The number of voters to return
   /// @return The voters, candidates and MSP amount at current block
   function getVoters(uint _offset, uint _limit)
+    public
     constant
     returns(address[] _voters, uint8[] _candidates, uint[] _amounts) {
     return getVotersAt(_offset, _limit, getBlockNumber());
@@ -90,6 +92,7 @@ contract Voting is Ownable {
   /// @param _blockNumber The block number when the voters's MSP balances is queried
   /// @return The voters, candidates and MSP amount at `_blockNumber`
   function getVotersAt(uint _offset, uint _limit, uint _blockNumber)
+    public
     constant
     returns(address[] _voters, uint8[] _candidates, uint[] _amounts) {
 
@@ -111,7 +114,7 @@ contract Voting is Ownable {
     }
   }
 
-  function getSummary() constant returns (uint8[] _candidates, uint[] _summary) {
+  function getSummary() public constant returns (uint8[] _candidates, uint[] _summary) {
     uint _block = getBlockNumber() > endBlock ? endBlock : getBlockNumber();
 
     // Fill the candidates IDs list
@@ -135,7 +138,7 @@ contract Voting is Ownable {
   ///  sent tokens to this contract.
   /// @param _token The address of the token contract that you want to recover
   ///  set to 0 in case you want to extract ether.
-  function claimTokens(address _token) onlyOwner {
+  function claimTokens(address _token) public onlyOwner {
     if (_token == 0x0) {
       owner.transfer(this.balance);
       return;
@@ -153,7 +156,7 @@ contract Voting is Ownable {
   }
 
   /// @dev Helper function to return a min betwen the two uints
-  function min(uint a, uint b) internal returns (uint) {
+  function min(uint a, uint b) internal pure returns (uint) {
     return a < b ? a : b;
   }
 
