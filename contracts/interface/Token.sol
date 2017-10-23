@@ -7,5 +7,5 @@ contract Token is ERC20Basic{
   /// @param _owner The address from which the balance will be retrieved
   /// @param _blockNumber The block number when the balance is queried
   /// @return The balance at `_blockNumber`
-  function balanceOfAt(address _owner, uint _blockNumber) constant returns (uint);
+  function balanceOfAt(address _owner, uint _blockNumber) public constant returns (uint);
 }
