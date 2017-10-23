@@ -4,7 +4,8 @@
   "author": "Anton Egorov <anton.egoroff@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "truffle test --network development"
+    "compile": "truffle compile --all",
+    "test": "truffle test"
   },
   "devDependencies": {
     "ethereumjs-abi": "^0.6.4",
